@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Previsão do Tempo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1d8977, #a8e6cf, #dcedc1);
+            color: #333;
+            margin: 0;
+        }
+
+        header {
+            background-color: #00695c;
+            color: white;
+            text-align: left;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header img {
+            width: 80px;
+            height: 80px;
+            margin-right: 10px;
+        }
+
+        main {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .carousel {
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .carousel-images {
+            display: flex;
+            animation: scroll 20s linear infinite;
+        }
+
+        .carousel-images img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            margin-right: 10px;
+            border-radius: 8px;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+
+        .introduction {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #00796b;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #004d40;
+        }
+
+        .weather-info {
+            margin-top: 20px;
+            background-color: #f1f1f1;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #00695c;
+            color: white;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .search-bar {
+            margin: 20px 0;
+        }
+
+        .search-bar input {
+            padding: 10px;
+            border: 1px solid #00796b;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .search-bar button {
+            padding: 10px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+
+        .search-bar button:hover {
+            background-color: #004d40;
+        }
+
+        header h1 {
+            position: relative;
+            left: 20px;
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            header img {
+                width: 60px;
+                height: 60px;
+            }
+
+            .carousel-images img {
+                max-width: 100%;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar input {
+                margin-bottom: 10px;
+            }
+
+            .introduction {
+                padding: 15px;
+            }
+        }
+
+        @media (min-width: 601px) {
+            .carousel-images {
+                animation: scroll 20s linear infinite;
+            }
+        }
+
+        /* Cores para as temperaturas */
+        .temp-below-25 {
+            color: blue; /* Azul para temperaturas abaixo de 25 graus */
+        }
+
+        .temp-25-to-30 {
+            color: green; /* Verde para temperaturas entre 25 e 30 graus */
+        }
+
+        .temp-above-30 {
+            color: red; /* Vermelho para temperaturas acima de 30 graus */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <img src="weather Hurricane (Logotipo) (1).png" alt="Logotipo do Weather Hurricane">
+        <h1>Weather Hurricane</h1>
+    </header>
+    <main>
+        <section class="carousel">
+            <div class="carousel-images">
+                <img src="new-york.jpg">
+                <img src="RJ.jpg">
+                <img src="Varzea Grande.jpg">
+                <img src="Cuiabá.jpg">
+                <img src="Curitiba.jpg">
+                <img src="new-york.jpg">
+                <img src="Orlando.jpg">
+                <img src="São Paulo.jpg">
+                <img src="RJ.jpg">
+                <img src="Varzea Grande.jpg">
+                <img src="Cuiabá.jpg">
+                <img src="Curitiba.jpg">
+                <img src="new-york.jpg">
+                <img src="Orlando.jpg">
+                <img src="São Paulo.jpg">
+            </div>
+        </section>
+
+        <section class="introduction">
+            <h2>Bem-vindo ao nosso site!</h2>
+            <p>Aqui você encontra as melhores previsões do tempo para sua região, com atualizações em tempo real e dicas para se preparar para as condições climáticas.</p>
+            <div class="search-bar">
+                <input type="text" id="city-input" placeholder="Digite a cidade...">
+                <button onclick="searchWeather()">Pesquisar</button>
+            </div>
+            <a href="previsão.html" class="button">Ver Previsão do Tempo</a>
+        </section>
+
+        <section class="weather-info" id="weather-info">
+            <h3>Previsão do Tempo Atual</h3>
+            <ul id="weather-list">
+                <!-- As informações do tempo serão inseridas aqui -->
+            </ul>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 SENAC </p>
+    </footer>
+
+    <script>
+        const weatherData = [
+            // Adicionar todas as cidades e suas previsões, conforme já existe no seu código...
+              // Cidades do Brasil (adicionadas 50 cidades)
+            { city: "Várzea Grande", temp: "30°C", condition: "ensolarado" },
+            { city: "São Paulo", temp: "24°C", condition: "ensolarado" },
+            { city: "Rio de Janeiro", temp: "26°C", condition: "parcialmente nublado" },
+            { city: "Brasília", temp: "22°C", condition: "chuvoso" },
+            { city: "Salvador", temp: "28°C", condition: "ensolarado" },
+            { city: "Belo Horizonte", temp: "23°C", condition: "chuvas isoladas" },
+            { city: "Curitiba", temp: "20°C", condition: "nublado" },
+            { city: "Fortaleza", temp: "30°C", condition: "ensolarado" },
+            { city: "Manaus", temp: "32°C", condition: "chuvas isoladas" },
+            { city: "Recife", temp: "27°C", condition: "parcialmente nublado" },
+            { city: "Porto Alegre", temp: "21°C", condition: "nublado" },
+            { city: "Natal", temp: "29°C", condition: "ensolarado" },
+            { city: "Teresina", temp: "33°C", condition: "ensolarado" },
+            { city: "Belém", temp: "26°C", condition: "chuvas isoladas" },
+            { city: "João Pessoa", temp: "28°C", condition: "parcialmente nublado" },
+            { city: "Maceió", temp: "27°C", condition: "ensolarado" },
+            { city: "Aracaju", temp: "29°C", condition: "ensolarado" },
+            { city: "Campo Grande", temp: "25°C", condition: "ensolarado" },
+            { city: "Cuiabá", temp: "30°C", condition: "ensolarado" },
+            { city: "Goiânia", temp: "24°C", condition: "nublado" },
+            { city: "Florianópolis", temp: "22°C", condition: "nublado" },
+            { city: "Vitória", temp: "26°C", condition: "ensolarado" },
+            { city: "Rio Branco", temp: "30°C", condition: "chuvas isoladas" },
+            { city: "Palmas", temp: "29°C", condition: "ensolarado" },
+            { city: "São Luís", temp: "27°C", condition: "parcialmente nublado" },
+            { city: "Tocantins", temp: "29°C", condition: "ensolarado" },
+            { city: "Santos", temp: "25°C", condition: "ensolarado" },
+            { city: "Sorocaba", temp: "23°C", condition: "nublado" },
+            { city: "Uberlândia", temp: "26°C", condition: "ensolarado" },
+            { city: "Ribeirão Preto", temp: "28°C", condition: "parcialmente nublado" },
+            { city: "Campinas", temp: "24°C", condition: "ensolarado" },
+            { city: "São Bernardo do Campo", temp: "22°C", condition: "nublado" },
+            { city: "São Caetano do Sul", temp: "23°C", condition: "ensolarado" },
+            { city: "Guarulhos", temp: "24°C", condition: "chuvas isoladas" },
+            { city: "Diadema", temp: "26°C", condition: "ensolarado" },
+            { city: "Osasco", temp: "23°C", condition: "nublado" },
+            { city: "Mogi das Cruzes", temp: "25°C", condition: "chuvas isoladas" },
+            { city: "Limeira", temp: "27°C", condition: "ensolarado" },
+            { city: "Piracicaba", temp: "28°C", condition: "parcialmente nublado" },
+            { city: "Bauru", temp: "25°C", condition: "ensolarado" },
+            { city: "Jundiaí", temp: "26°C", condition: "chuvas isoladas" },
+            { city: "Taubaté", temp: "24°C", condition: "ensolarado" },
+            { city: "Carapicuíba", temp: "25°C", condition: "nublado" },
+            { city: "Barueri", temp: "26°C", condition: "parcialmente nublado" },
+            { city: "Itu", temp: "27°C", condition: "chuvas isoladas" },
+            { city: "Marília", temp: "28°C", condition: "ensolarado" },
+            { city: "Franca", temp: "29°C", condition: "nublado" },
+            // Cidades dos Estados Unidos (45)
+            { city: "Nova York", temp: "15°C", condition: "ensolarado" },
+            { city: "Orlando", temp: "30°C", condition: "ensolarado" },
+            { city: "Los Angeles", temp: "28°C", condition: "parcialmente nublado" },
+            { city: "Chicago", temp: "12°C", condition: "nublado" },
+            { city: "Houston", temp: "32°C", condition: "ensolarado" },
+            { city: "Miami", temp: "31°C", condition: "nublado" },
+            { city: "Dallas", temp: "29°C", condition: "chuvas isoladas" },
+            { city: "Boston", temp: "10°C", condition: "chuvoso" },
+            { city: "Las Vegas", temp: "34°C", condition: "ensolarado" },
+            { city: "San Francisco", temp: "20°C", condition: "nublado" },
+            { city: "Atlanta", temp: "28°C", condition: "ensolarado" },
+            { city: "Washington", temp: "22°C", condition: "parcialmente nublado" },
+            { city: "Seattle", temp: "16°C", condition: "chuvoso" },
+            { city: "Denver", temp: "18°C", condition: "ensolarado" },
+            { city: "Phoenix", temp: "35°C", condition: "ensolarado" },
+            { city: "Philadelphia", temp: "21°C", condition: "parcialmente nublado" },
+            { city: "Portland", temp: "14°C", condition: "nublado" },
+            { city: "Minneapolis", temp: "10°C", condition: "nublado" },
+            { city: "Detroit", temp: "13°C", condition: "chuvas isoladas" },
+            { city: "Cleveland", temp: "18°C", condition: "chuvas isoladas" },
+            { city: "Indianapolis", temp: "19°C", condition: "parcialmente nublado" },
+            { city: "Charlotte", temp: "27°C", condition: "nublado" },
+            { city: "Austin", temp: "33°C", condition: "ensolarado" },
+            { city: "Kansas City", temp: "22°C", condition: "parcialmente nublado" },
+            { city: "Salt Lake City", temp: "28°C", condition: "ensolarado" },
+            { city: "Tampa", temp: "30°C", condition: "nublado" },
+            { city: "Columbus", temp: "23°C", condition: "chuvas isoladas" },
+            { city: "Louisville", temp: "27°C", condition: "nublado" },
+            { city: "Pittsburgh", temp: "15°C", condition: "nublado" },
+            { city: "Baltimore", temp: "22°C", condition: "chuvas isoladas" },
+
+            // Cidades da África (30)
+            { city: "Cairo", temp: "30°C", condition: "ensolarado" },
+            { city: "Cidade do Cabo", temp: "20°C", condition: "parcialmente nublado" },
+            { city: "Nairóbi", temp: "25°C", condition: "chuvas isoladas" },
+            { city: "Lagos", temp: "28°C", condition: "chuvas isoladas" },
+            { city: "Durban", temp: "23°C", condition: "nublado" },
+            { city: "Abuja", temp: "32°C", condition: "ensolarado" },
+            { city: "Dakar", temp: "27°C", condition: "nublado" },
+            { city: "Tunis", temp: "26°C", condition: "ensolarado" },
+            { city: "Marrakech", temp: "34°C", condition: "ensolarado" },
+            { city: "Kigali", temp: "24°C", condition: "nublado" },
+            { city: "Addis Abeba", temp: "22°C", condition: "chuvas isoladas" },
+            { city: "Casablanca", temp: "28°C", condition: "ensolarado" },
+            { city: "Accra", temp: "30°C", condition: "nublado" },
+            { city: "Kinshasa", temp: "29°C", condition: "chuvas isoladas" },
+            { city: "Lomé", temp: "27°C", condition: "nublado" },
+            { city: "Dar es Salaam", temp: "25°C", condition: "chuvas isoladas" },
+            { city: "Harare", temp: "22°C", condition: "nublado" },
+            { city: "Luanda", temp: "30°C", condition: "ensolarado" },
+            { city: "Maputo", temp: "26°C", condition: "chuvas isoladas" },
+            { city: "Douala", temp: "29°C", condition: "nublado" },
+            { city: "Johannesburgo", temp: "20°C", condition: "nublado" },
+            { city: "Kampala", temp: "23°C", condition: "nublado" },
+            { city: "Lagos", temp: "30°C", condition: "nublado" },
+            { city: "Freetown", temp: "28°C", condition: "chuvas isoladas" },
+            { city: "Mogadíscio", temp: "31°C", condition: "nublado" },
+            { city: "Bujumbura", temp: "24°C", condition: "chuvas isoladas" },
+
+            // Cidades da Europa (45)
+            { city: "Londres", temp: "10°C", condition: "chuvoso" },
+            { city: "Paris", temp: "18°C", condition: "parcialmente nublado" },
+            { city: "Berlim", temp: "14°C", condition: "chuvas isoladas" },
+            { city: "Madrid", temp: "20°C", condition: "ensolarado" },
+            { city: "Roma", temp: "22°C", condition: "nublado" },
+            { city: "Amsterdã", temp: "16°C", condition: "nublado" },
+            { city: "Lisboa", temp: "25°C", condition: "ensolarado" },
+            { city: "Bruxelas", temp: "12°C", condition: "chuvas isoladas" },
+            { city: "Munique", temp: "14°C", condition: "parcialmente nublado" },
+            { city: "Praga", temp: "18°C", condition: "chuvas isoladas" },
+            { city: "Viena", temp: "20°C", condition: "nublado" },
+            { city: "Budapeste", temp: "21°C", condition: "ensolarado" },
+            { city: "Helsinque", temp: "8°C", condition: "chuvoso" },
+            { city: "Zurique", temp: "10°C", condition: "nublado" },
+            { city: "Copenhague", temp: "9°C", condition: "chuvas isoladas" },
+            { city: "Oslo", temp: "7°C", condition: "nublado" },
+            { city: "Estocolmo", temp: "10°C", condition: "nublado" },
+            { city: "Amsterdã", temp: "15°C", condition: "nublado" },
+            { city: "Copenhague", temp: "14°C", condition: "chuvas isoladas" },
+            { city: "Atenas", temp: "25°C", condition: "ensolarado" },
+            { city: "Barcelona", temp: "26°C", condition: "ensolarado" },
+            { city: "Milão", temp: "22°C", condition: "chuvas isoladas" },
+            { city: "Lyon", temp: "20°C", condition: "nublado" },
+            { city: "Gênova", temp: "23°C", condition: "nublado" },
+            { city: "Hamburgo", temp: "14°C", condition: "chuvas isoladas" },
+            { city: "Sofia", temp: "18°C", condition: "nublado" },
+            { city: "Turim", temp: "22°C", condition: "chuvas isoladas" },
+            { city: "Paris", temp: "19°C", condition: "nublado" },
+            { city: "Antuérpia", temp: "16°C", condition: "chuvas isoladas" },
+
+            // Cidades da Ásia (45)
+            { city: "Tóquio", temp: "22°C", condition: "nublado" },
+            { city: "Seul", temp: "20°C", condition: "chuvas isoladas" },
+            { city: "Pequim", temp: "25°C", condition: "ensolarado" },
+            { city: "Mumbai", temp: "29°C", condition: "chuvas isoladas" },
+            { city: "Délhi", temp: "28°C", condition: "nublado" },
+            { city: "Bangcoc", temp: "30°C", condition: "ensolarado" },
+            { city: "Hong Kong", temp: "26°C", condition: "chuvas isoladas" },
+            { city: "Cingapura", temp: "32°C", condition: "ensolarado" },
+            { city: "Dubai", temp: "35°C", condition: "ensolarado" },
+            { city: "Jakarta", temp: "29°C", condition: "chuvas isoladas" },
+            { city: "Seul", temp: "18°C", condition: "nublado" },
+            { city: "Kuala Lumpur", temp: "30°C", condition: "nublado" },
+            { city: "Karachi", temp: "33°C", condition: "ensolarado" },
+            { city: "Manila", temp: "28°C", condition: "nublado" },
+            { city: "Ho Chi Minh", temp: "30°C", condition: "chuvas isoladas" },
+            { city: "Moscou", temp: "12°C", condition: "chuvas isoladas" },
+            { city: "Bali", temp: "30°C", condition: "ensolarado" },
+            { city: "Lima", temp: "20°C", condition: "chuvas isoladas" },
+            { city: "Hanoi", temp: "28°C", condition: "chuvas isoladas" },
+            { city: "Teerã", temp: "26°C", condition: "chuvas isoladas" },
+            { city: "Kathmandu", temp: "23°C", condition: "chuvas isoladas" },
+            { city: "Bangladesh", temp: "32°C", condition: "ensolarado" },
+            { city: "Karachi", temp: "30°C", condition: "nublado" },
+            { city: "Cabul", temp: "15°C", condition: "nublado" },
+            { city: "Dhaka", temp: "29°C", condition: "ensolarado" },
+            { city: "Riyadh", temp: "37°C", condition: "ensolarado" }
+        ];
+
+        // Função que remove acentos
+        function removeAcentos(str) {
+            const mapaAcentos = {
+                'á': 'a', 'à': 'a', 'ã': 'a', 'â': 'a', 'ä': 'a', 'å': 'a',
+                'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e',
+                'í': 'i', 'ì': 'i', 'î': 'i', 'ï': 'i',
+                'ó': 'o', 'ò': 'o', 'õ': 'o', 'ô': 'o', 'ö': 'o',
+                'ú': 'u', 'ù': 'u', 'û': 'u', 'ü': 'u',
+                'ç': 'c',
+                'ñ': 'n', 'š': 's', 'ž': 'z'
+            };
+            return str.split('').map(char => mapaAcentos[char] || char).join('');
+        }
+
+        // Função que busca as cidades e exibe a previsão do tempo
+        function searchWeather() {
+            const input = document.getElementById("city-input").value;
+            const normalizedInput = removeAcentos(input.toLowerCase());
+            const results = weatherData.filter(entry => removeAcentos(entry.city.toLowerCase()).includes(normalizedInput));
+            const weatherList = document.getElementById("weather-list");
+            weatherList.innerHTML = '';
+
+            if (results.length > 0) {
+                results.forEach(result => {
+                    const li = document.createElement("li");
+                    const temp = parseInt(result.temp.replace('°C', '')); // extrai a temperatura para comparar
+                    let tempClass = '';
+
+                    // Aplica as classes de cor de acordo com a temperatura
+                    if (temp < 25) {
+                        tempClass = 'temp-below-25';
+                    } else if (temp >= 25 && temp <= 30) {
+                        tempClass = 'temp-25-to-30';
+                    } else {
+                        tempClass = 'temp-above-30';
+                    }
+
+                    li.className = tempClass;  // aplica a classe à li
+                    li.textContent = ${result.city}: ${result.temp}, ${result.condition};
+                    weatherList.appendChild(li);
+                });
+                document.getElementById("weather-info").style.display = "block";
+            } else {
+                const li = document.createElement("li");
+                li.textContent = "Cidade não encontrada.";
+                weatherList.appendChild(li);
+                document.getElementById("weather-info").style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
